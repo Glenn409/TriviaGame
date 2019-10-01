@@ -1,0 +1,43 @@
+body{
+    background-color:grey;
+    color:white;
+    font-size:30px;
+}
+.container{
+    width:960px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:150px;
+    display:flex;
+    justify-content: center;
+    flex-flow: column;
+    align-content: center;
+
+}
+.header{
+    font-size:40px;
+}
+
+#start_button{
+    padding-top:10px;
+    padding-bottom:10px;
+    width:20%;
+    font-size:25px;
+}
+.question{
+    font-size:40px;
+    font-weight:bold;
+    text-align: center;
+    padding:15px 10px;
+}
+.guess_box{
+    border:2px solid blue;
+    font-size:30px;
+    font-weight:bold;
+    line-height:1.5;
+}
+.timer{
+    text-align:center;
+    font-size:50px;
+    font-weight:bold;
+}
