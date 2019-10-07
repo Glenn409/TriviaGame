@@ -98,9 +98,10 @@ function myTimer(timer){
         if(remaining_time > 0){
             remaining_time--;
             $('.timer').text(remaining_time);
-            console.log(remaining_time);
+            // console.log(remaining_time);
         } else {
-            clearInterval(this);
+            // console.log('interval cleared')
+            clearInterval(timerControl);
             displayQuestionResult('outoftime');
         }
     },1000);
@@ -198,7 +199,7 @@ $('#start_button').on('click',function(){
     startGame();
     this.remove();
 })
-//start button
+//try again button
 $(document).on('click','#try_again',function(){
     addQuestion('What color of a cat is mainly associated with the commemoration of Halloween?','Black','Brown','White','None',"A black cat is associated with the celebration of Halloween. Legend has it that black cats were believed to be reincarnated witches.");
     addQuestion("A superstitious practice of burying animal bones in one's front yard is meant to protect the individual from?",'Evil Spirits','Ghosts','Vampires','Witches',"here is the belief that evil spirits could be warded off if a person buries the bones of an animal at the front yard of his/her house.");
