@@ -6,6 +6,12 @@ addQuestion('question2','answer','guess1','guess2','guess3','img-holder');
 addQuestion('question3','answer','guess1','guess2','guess3','img-holder');
 addQuestion('question4','answer','guess1','guess2','guess3','img-holder');
 
+//stats for the game
+var correctAnswers = 0; 
+var incorrectAnswers = 0;
+var incompleteAnswers = 0;
+
+var currentQuestion = {};
 //creates a new question + answers 
 function addQuestion(question,answer,guess1,guess2,guess3,image){
     obj = {
@@ -29,8 +35,9 @@ function randomDisplay(array){
     //function to display information on html
     displayQuestion(display_question);
 }
-//function to write how elements will be dispalyed
+//function to write how elements will be displayed and sets current question 
 function displayQuestion(obj){
+    currentQuestion = obj;
     $('.question').text(obj.question);
     $('.guess_box').text('');
     // array to simulate random placement
@@ -88,35 +95,83 @@ function myTimer(timer){
     var remaining_time = timer;
     setInterval(function(){
         if(remaining_time > 0){
-            console.log(remaining_time)
             remaining_time--;
             $('.timer').text(remaining_time);
         } else {
             clearInterval(this);
-            
+            displayQuestionResult('outoftime');
         }
     },1000);
 };
+//tells user if they guessed wrong/right or out of time
+function displayQuestionResult(guess){
+    var displayOutofTime= $(
+        `<button id='next'>Next Question</button>
+        <div class='question'>You Ran Out of Time!</div>
+        <p>insert possible image here</p>`
+        )
 
+    var displayWrong = $(
+        `<button id='next'>Next Question</button>
+        <div class='question'>You Were Wrong!</div>
+        <p>insert possible image here</p>`
+        )
 
+    var displayCorrect = $(
+        `<button id='next'>Next Question</button>
+        <div class='question'>You Were Correct!</div>
+        <p>insert possible image here</p>`
+        )
+    $('.trivia_box').empty();
+    if(guess === true){
+        $('.trivia_box').append(displayCorrect);
+        correctAnswers++;
+    } else if ( guess === false){
+        incorrectAnswers++;
+        $('.trivia_box').append(displayWrong);
+    } else if (guess === 'outoftime'){
+        incompleteAnswers++;
+        $('.trivia_box').append(displayOutofTime);
+    }
+}
+//actions done when time runs out.
+function outOfTime(){
+
+}
+//function to check what user guessed
+function checkAnswers(answer){
+    answer = answer.split('  ');
+    answer = answer[1];
+    console.log(answer);
+    if(answer === currentQuestion.title){
+        displayQuestionResult(true);
+    }else{
+        displayQuestionResult(false);
+    };
+}
+
+//runs each question
 function runQuestion(){
     remaining_time = 5;
     randomDisplay(questions_array);
     $('.timer').text(remaining_time);
 
     myTimer(remaining_time);
-
 }   
 
-//starts game, starts time, pulls questions/answers
+//starts game, starts time, pulls questions/answers as long as question array has questions
 function startGame(){
     runQuestion()
 }
 
 
-
 //start button
 $('#start_button').on('click',function(){
     startGame();
-    
+    this.remove();
+})
+
+//when user takes guess, checks answer displays results
+$(document).on('click', '.guess',function(){
+    checkAnswers($(this).text());
 })
